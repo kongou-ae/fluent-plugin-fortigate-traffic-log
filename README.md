@@ -1,29 +1,20 @@
 # Fluent::Plugin::Fortigate::Traffic::Log
 
-TODO: Write a gem description
+FortiGateから受信したsyslogをパースする、FluentのTailインプットプラグインパーサーです。
+※OS4.0 MR3 Patch 14で動作確認を行っています。
 
 ## Installation
 
-Add this line to your application's Gemfile:
+1. FortiGateにsyslogの設定をしてください。(CSVフォーマットを有効にしてください)
+2. in_fortigate_traffic_log.rbを/etc/fluent/plugin配下に設置してください
 
-    gem 'fluent-plugin-fortigate-traffic-log'
+## Fluent's Configuration
 
-And then execute:
+    <source>
+       type fortigate-traffic-log
+       path /path/to/your/logfile
+       pos_file /path/to/your/posfile
+       tag yourtag
+       time_format %Y-%m-%d %H:%M:%S
+    </source>
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install fluent-plugin-fortigate-traffic-log
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it ( http://github.com/<my-github-username>/fluent-plugin-fortigate-traffic-log/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
