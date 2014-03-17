@@ -9,25 +9,25 @@ class FortgateTrafficLog < Fluent::TailInput
 
   # Override 'parse_line(line)' method that returns time and record.
   def parse_line(line)
-    # $B%m%0$r(B,$B$GJ,3d$7$FG[Ns$K3JG<$9$k(B
+    # ログを,で分割して配列に格納する
     elements = line.split(",")
 
-    # date$B$H(Btime$B$r7k9g$7$F!"<B:]$NCM$r@55,I=8=$GCj=P$9$k(B
+    # dateとtimeを結合して、実際の値を正規表現で抽出する
     tmp = "#{elements[0]},#{elements[1]}"
     tmp =~ /.+date=(.+),time=(.+)/
     tmp_date = $1
 
-    # time$B$NCf$K4^$^$l$kH>3Q%9%Z!<%9$r=|5n$9$k!#(B$
+    # timeの中に含まれる半角スペースを除去する。$
     tmp_time = $2.gsub(/(\s)+/,'')
 
-    # $BCj=P$7$?CM$r0l$D$K$^$H$a$F!"(Btime$B%*%V%8%'%/%H7PM3$G(Bunixtime$B$K$9$k(B$
+    # 抽出した値を一つにまとめて、timeオブジェクト経由でunixtimeにする$
     time = "#{tmp_date} #{tmp_time}"
     time = Time.strptime(time, @time_format).to_i
 
-    # $B=hM}$,=*N;$7$?$N$G!"G[Ns$+$i@hF,(B2$B$D$r:o=|(B$
+    # 処理が終了したので、配列から先頭2つを削除$
     elements.shift(2)
 
-    # $B%H%i%U%#%C%/%m%0$N=hM}(B
+    # トラフィックログの処理
     record = {}
     while k = elements.shift
       k =~ /(.+)=(.+)/
