@@ -1,7 +1,7 @@
 # Fluent::Plugin::Fortigate::Traffic::Log
 
-FortiGateから受信したsyslogをパースする、FluentのTailインプットプラグインパーサーです。
-※OS4.0 MR3 Patch 14で動作確認を行っています。
+FluentのTailインプットプラグインパーサーです。FortiGateから受信したsyslogをパースします。
+※FortiGate-50B + OS4.0 MR3 Patch 14で動作確認を行っています。
 
 ## Installation
 
