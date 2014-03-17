@@ -4,7 +4,7 @@ class FortgateTrafficLog < Fluent::TailInput
   # Override 'configure_parser(conf)' method.
   # You can get config parameters in this method.
   def configure_parser(conf)
-    @time_format = conf['time_format'] || '%Y-%M-%d %H:%M:%S'
+    @time_format = conf['time_format'] || '%Y-%m-%d %H:%M:%S'
   end
 
   # Override 'parse_line(line)' method that returns time and record.
