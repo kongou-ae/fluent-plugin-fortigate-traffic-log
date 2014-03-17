@@ -1,12 +1,12 @@
 # Fluent::Plugin::Fortigate::Traffic::Log
 
-Fluent$B$N(BTail$B%$%s%W%C%H%W%i%0%$%s%Q!<%5!<$G$9!#(BFortiGate$B$+$i<u?.$7$?(Bsyslog$B$r%Q!<%9$7$^$9!#(B
-$B"((BFortiGate-50B + OS4.0 MR3 Patch 14$B$GF0:n3NG'$r9T$C$F$$$^$9!#(B
+FluentのTailインプットプラグインパーサーです。FortiGateから受信したsyslogをパースします。
+※FortiGate-50B + OS4.0 MR3 Patch 14で動作確認を行っています。
 
 ## Installation
 
-1. FortiGate$B$K(Bsyslog$B$N@_Dj$r$7$F$/$@$5$$!#(B(CSV$B%U%)!<%^%C%H$rM-8z$K$7$F$/$@$5$$(B)
-2. in_fortigate_traffic_log.rb$B$r(B/etc/fluent/plugin$BG[2<$K@_CV$7$F$/$@$5$$(B
+1. FortiGateにsyslogの設定をしてください。(CSVフォーマットを有効にしてください)
+2. in_fortigate_traffic_log.rbを/etc/fluent/plugin配下に設置してください
 
 ## Fluent's Configuration
 
