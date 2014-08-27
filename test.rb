@@ -10,20 +10,20 @@ require 'time'
 
     include_space = Array['dst_country','src_country','dstcountry','srccountry']
 
-    # $B%a%b%j%m%0$N>l9g$N8DJL=hM}(B
+    # メモリログの場合の個別処理
     if /devname/ !~ line
-      # $B%9%Z!<%9$r4^$`MWAG$r0l$D$:$D=hM}(B
+      # スペースを含む要素を一つずつ処理
       for i in include_space do
-        # $B%9%Z!<%9$r4^$`MWAG$,$"$l$P=hM}(B
+        # スペースを含む要素があれば処理
         if /#{i}/ =~ line
-          # $B%9%Z!<%9IU$-$N9qL>$rCj=P(B
+          # スペース付きの国名を抽出
           /#{i}="(.*?)"/ =~ line 
           country_name = $1
-          # $B9qL>$K6uGr$,4^$^$l$F$$$k$+%A%'%C%/(B
+          # 国名に空白が含まれているかチェック
           if /.*\s.*/ =~ country_name
-            # $B%9%Z!<%9$,4^$^$l$F$$$k>l9g$O!"%9%Z!<%9:o=|:Q$_$N9qL>$rMQ0U$9$k(B
+            # スペースが含まれている場合は、スペース削除済みの国名を用意する
             new_country_name = country_name.gsub(/\s/,'')
-            # $B%9%Z!<%9:o=|:Q$_$N9qL>$G!"85!9$N9qL>$rCV49(B
+            # スペース削除済みの国名で、元々の国名を置換
             line.gsub!("\"#{country_name}\"", "\"#{new_country_name}\"")
           end
         end
@@ -32,31 +32,31 @@ require 'time'
       line.gsub!(/\s/,',')
     end
 
-    # $B%m%0$r(B,$B$GJ,3d$7$FG[Ns$K3JG<$9$k(B
+    # ログを,で分割して配列に格納する
     elements = line.split(",")
 
-    # syslog$B8DJL$N=hM}(B
+    # syslog個別の処理
     if /devname/ =~ line
-      # syslog$B$N@hF,$HG[Ns$N(B1$BL\$r7k9g(B
+      # syslogの先頭と配列の1目を結合
       tmp = "#{elements[0]},#{elements[1]}"
-      # $B7k9g$7$?$b$N$+$i!"F|;~$rCj=P(B
+      # 結合したものから、日時を抽出
       tmp =~ /.+date=(.+),time=(.+)/
       tmp_date = $1
       tmp_time = $2
 
       if /\s/ =~ tmp_time
-        # time$B$NCf$K4^$^$l$kH>3Q%9%Z!<%9$r=|5n$9$k!#(B
+        # timeの中に含まれる半角スペースを除去する。
         tmp_time.gsub!(/(\s)+/,'')
       end
 
-      # $BCj=P$7$?CM$r0l$D$K$^$H$a$F!"(Btime$B%*%V%8%'%/%H7PM3$G(Bunixtime$B$K$9$k(B
+      # 抽出した値を一つにまとめて、timeオブジェクト経由でunixtimeにする
       time = "#{tmp_date} #{tmp_time}"
     else
       time = "#{elements[0]} #{elements[1]}"
     end
 
     time = Time.strptime(time, @time_format).to_i
-    # $B=hM}$,=*N;$7$?$N$G!"G[Ns$+$i@hF,(B2$B$D$r:o=|(B
+    # 処理が終了したので、配列から先頭2つを削除
     elements.shift(2)
 
     record = {}
@@ -68,7 +68,7 @@ require 'time'
     return time, record
   end
 
-# $B%F%9%H(B
+# テスト
   def test
     syslog = ''
     local = ''
